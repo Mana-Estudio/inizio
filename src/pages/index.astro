@@ -1,0 +1,305 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import { FEATURED, PROYECTOS, CONTACTO, bySlug } from '../data/proyectos';
+import equipo from '../assets/img/equipo.jpg';
+import ladera from '../assets/img/ladera.png';
+import materiales from '../assets/img/materiales.png';
+import bocetos from '../assets/img/bocetos.jpg';
+
+const hero = bySlug('horizonte');
+const teca = bySlug('teca');
+const FW = [1.5, 0.8, 1.6, 0.8, 1.3, 1.5];
+const pilares = [
+  ['I', 'Diseño personal', 'Cada casa parte de tu forma de vivir y de tu parcela. Sin modelos de catálogo.'],
+  ['II', 'Estamos de tu lado', 'Representamos tus intereses en cada decisión, también frente a la constructora.'],
+  ['III', 'Rigor técnico', 'Un proyecto completo y detallado, para comparar presupuestos con criterio y que la obra no improvise.'],
+  ['IV', 'Te lo ponemos fácil', 'Hablas siempre con los arquitectos responsables de tu casa. Un interlocutor y decisiones claras.'],
+];
+const fases = [
+  ['01', 'Estudio de la parcela', 'Analizamos normativa, orientación y topografía para saber qué permite tu parcela antes de dibujar.'],
+  ['02', 'Diseño y proyecto', 'Diseñamos la casa contigo, de los primeros bocetos al proyecto de ejecución.'],
+  ['03', 'Elegimos bien con quién construir', 'Comparamos presupuestos, calidades y plazos de varias constructoras, con total independencia.'],
+  ['04', 'Dirección de obra', 'Dirigimos la obra y defendemos tus intereses hasta la entrega.'],
+];
+const municipios = ['Pozuelo de Alarcón', 'Majadahonda', 'Las Rozas', 'Madrid'];
+const diario = [
+  { img: ladera, tag: 'Parcela', t: 'Claves para construir tu casa en un terreno inclinado', alt: 'Casa escalonada en una ladera' },
+  { img: bocetos, tag: 'Honorarios', t: '¿Cuánto cobra un arquitecto por el proyecto de una casa?', alt: 'Manos dibujando planos junto a muestras de materiales' },
+  { img: materiales, tag: 'Decisión', t: 'Construir tu propia casa o comprar una: cómo decidir', alt: 'Muestras de piedra y madera sobre planos' },
+];
+---
+<Base
+  title="INIZIO · Arquitectos de vivienda unifamiliar en Madrid oeste"
+  description="Estudio de arquitectura en Pozuelo de Alarcón: casas unifamiliares a medida, proyecto y dirección de obra en Madrid, Majadahonda, Las Rozas y alrededores."
+  intro
+  image={hero.img.src}
+>
+  <!-- Hero -->
+  <section data-hero class="hero dark">
+    <div class="abs"><Foto src={hero.img} alt="Casa Horizonte: volumen horizontal blanco abierto a la piscina y al jardín" h="100%" reveal="hero" eager pos={hero.pos} /></div>
+    <div class="hero-shade" />
+    <div class="hero-txt">
+      <span class="ln"><span data-reveal="up" data-delay="1500" class="lbl">Estudio de arquitectura · Pozuelo de Alarcón · Madrid oeste</span></span>
+      <h1 class="h" style="--fs:clamp(52px,9.6vw,148px);--lh:.96;--ls:-.025em">
+        <span class="ln"><span data-reveal="up" data-delay="1600">Casas a medida,</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="1670">con arquitectos</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="1740" class="i">de tu lado.</span></span>
+      </h1>
+      <div data-reveal="fade" data-delay="1900" class="row between end" style="gap:24px">
+        <div class="row" style="align-items:center;gap:16px 32px">
+          <a href="/contacto/" class="btn btn--light">Cuéntanos tu parcela <span>→</span></a>
+          <a href="/promotoras/" class="hero-sec">Soy promotora</a>
+        </div>
+        <span class="lbl desk">{hero.name} · {hero.idx.slice(0, 2)}/12</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mensaje -->
+  <section class="sec row" style="gap:32px clamp(24px,5vw,80px)">
+    <div style="flex:1 1 200px;max-width:320px"><span data-reveal="fade" class="lbl muted">El estudio</span></div>
+    <div class="col" style="flex:3 1 560px;gap:40px">
+      <p class="h" style="--fs:clamp(32px,3.9vw,60px);--lh:1.08;--ls:-.018em">
+        <span class="ln"><span data-reveal="up">Somos tus arquitectos y representamos</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="70">tus intereses <em class="teca">durante todo el proceso.</em></span></span>
+      </p>
+      <div data-reveal="fade" data-delay="160" class="row end" style="gap:24px 56px">
+        <p class="body" style="max-width:34em;flex:1 1 320px">Diseñamos tu casa, te ayudamos a elegir constructora con independencia, comparando presupuestos, calidades y plazos, y dirigimos la obra. Trabajas directamente con los arquitectos responsables.</p>
+        <a href="/como-trabajamos/" class="link">Cómo trabajamos →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proyectos destacados: galería horizontal (desktop) -->
+  <section data-hscroll data-n="6" class="hs desk-b" aria-label="Proyectos destacados">
+    <div class="hs-sticky">
+      <div class="px col" style="gap:20px">
+        <div class="row between baseline" style="gap:24px">
+          <h2 class="h" style="--fs:clamp(40px,4.4vw,68px)">Proyectos destacados</h2>
+          <div class="row baseline" style="gap:40px">
+            <span class="lbl" style="letter-spacing:.16em"><span data-hcount>01</span> / 06</span>
+            <a href="/proyectos/" class="link">Ver los 12 proyectos →</a>
+          </div>
+        </div>
+        <div class="hs-rail"><div data-hbar class="hs-bar" /></div>
+      </div>
+      <div data-track class="hs-track">
+        {FEATURED.map((p, i) => (
+          <a href={`/proyectos/${p.slug}/`} data-card data-cursor="Ver casa" class="hs-card" style={`width:calc(58vh * ${FW[i]})`}>
+            <div style="position:relative;height:58vh">
+              <Foto src={p.img} alt={`${p.name}: ${p.lema}`} h="100%" pos={p.pos} sizes="70vw" eager />
+              <div class="hname"><span>{p.name}</span></div>
+            </div>
+            <div class="card-meta">
+              <span class="row" style="gap:14px"><span class="muted" style="font-weight:500;letter-spacing:.08em">{p.idx}</span><span style="font-weight:500">{p.name}</span></span>
+              <span class="muted">{p.muni}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Proyectos destacados: carrusel táctil (mobile) -->
+  <section class="mob-b col" style="padding:24px 0 96px;gap:24px" aria-label="Proyectos destacados">
+    <div class="row between baseline" style="padding:0 20px">
+      <h2 class="h" style="--fs:36px">Proyectos destacados</h2>
+      <span class="lbl muted">06</span>
+    </div>
+    <div class="swipe">
+      {FEATURED.map((p) => (
+        <a href={`/proyectos/${p.slug}/`} data-card class="swipe-card">
+          <Foto src={p.img} alt={`${p.name}: ${p.lema}`} ratio="4/5" pos={p.pos} sizes="80vw" />
+          <div class="card-meta"><span style="font-weight:500">{p.name}</span><span class="muted">{p.idx}</span></div>
+        </a>
+      ))}
+    </div>
+    <div class="row between" style="padding:0 20px;align-items:center;font-size:15px">
+      <span class="muted">Desliza para ver más →</span>
+      <a href="/proyectos/" class="link" style="font-size:15px">Ver los 12</a>
+    </div>
+  </section>
+
+  <!-- Estamos de tu lado -->
+  <section class="sec bt row" style="gap:56px clamp(32px,5vw,96px);align-items:flex-start">
+    <div class="col sticky-col" style="flex:1 1 340px;gap:16px">
+      <Foto src={teca.img} alt="Casa Teca: volumen de madera abierto al jardín" ratio="4/5" sizes="(max-width: 819px) 100vw, 40vw" />
+      <span class="muted" style="font-size:14px">Casa Teca — {teca.muni}</span>
+    </div>
+    <div class="col" style="flex:1.4 1 480px">
+      <span data-reveal="fade" class="lbl teca">Estamos de tu lado</span>
+      <h2 class="h" style="--fs:clamp(44px,5.6vw,88px);--ls:-.022em;margin:20px 0 clamp(40px,5vw,72px)">
+        <span class="ln"><span data-reveal="up">Cuatro compromisos</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="70" class="i">con tu casa.</span></span>
+      </h2>
+      {pilares.map(([n, t, d], i) => (
+        <div data-reveal="fade" class="pilar" style={i === 0 ? 'border-top-color:var(--tinta)' : i === 3 ? 'border-bottom:1px solid var(--linea)' : ''}>
+          <span class="serif teca" style="font-size:22px;font-weight:400">{n}</span>
+          <div class="col" style="gap:12px"><h3 class="h3">{t}</h3><p class="body" style="max-width:32em">{d}</p></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Proceso -->
+  <section class="sec dark">
+    <div class="row between end" style="gap:32px;margin-bottom:clamp(56px,7vw,112px)">
+      <h2 class="h" style="--fs:clamp(44px,6.4vw,104px);--lh:.98;--ls:-.022em">
+        <span class="ln"><span data-reveal="up">De la parcela</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="70" class="i">a la llave.</span></span>
+      </h2>
+      <p data-reveal="fade" class="body" style="max-width:26em;color:var(--noche-gris-2)">Cuatro fases y el mismo equipo de principio a fin.</p>
+    </div>
+    <div data-process class="proc">
+      <div class="proc-rail" /><div data-line class="proc-line" />
+      {fases.map(([n, t, d]) => (
+        <div data-phase data-on="#C98A66" data-off="#4A4640" class="proc-phase">
+          <span data-num class="proc-num">{n}</span>
+          <h3 class="h3" style="flex:1 1 280px;--fs:clamp(28px,2.8vw,44px)">{t}</h3>
+          <p class="body" style="flex:1 1 300px;max-width:30em;color:var(--noche-texto)">{d}</p>
+        </div>
+      ))}
+    </div>
+    <div style="margin-top:56px"><a href="/como-trabajamos/" class="link" style="color:var(--cal)">El proceso en detalle →</a></div>
+  </section>
+
+  <!-- Estudio -->
+  <section class="sec col" style="gap:clamp(48px,6vw,96px)">
+    <p class="h" style="--fs:clamp(36px,4.6vw,72px);--lh:1.04;max-width:16em">
+      <span class="ln"><span data-reveal="up">Hablas con quien</span></span>
+      <span class="ln"><span data-reveal="up" data-delay="70">diseña tu casa <em class="teca">y dirige su obra.</em></span></span>
+    </p>
+    <div class="grid-auto" style="--min:300px;align-items:end">
+      <div class="col team-photo" style="gap:20px">
+        <Foto src={equipo} alt="Carlos Granero y Javier Blázquez, socios de INIZIO" ratio="1/1" pos="50% 30%" sizes="(max-width: 819px) 100vw, 50vw" />
+      </div>
+      <div class="col" style="gap:28px">
+        <div class="col person">
+          <span class="serif" style="font-size:clamp(26px,2.2vw,34px);line-height:1.1;font-weight:400">Carlos Granero</span>
+          <span class="muted" style="font-size:16px;line-height:1.55">Arquitecto. Más de 17 años de trayectoria; fundó Estudio MyMG en 2006.</span>
+        </div>
+        <div class="col person">
+          <span class="serif" style="font-size:clamp(26px,2.2vw,34px);line-height:1.1;font-weight:400">Javier Blázquez</span>
+          <span class="muted" style="font-size:16px;line-height:1.55">Ingeniero técnico y cofundador. Estrategia y negocio.</span>
+        </div>
+        <p class="body" style="max-width:26em">Un estudio de Pozuelo de Alarcón dedicado a la vivienda unifamiliar de obra nueva: proyecto y dirección de obra.</p>
+        <a href="/estudio/" class="link" style="align-self:flex-start">Conoce el estudio →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prueba social -->
+  <section class="px col" style="padding-bottom:var(--sec);gap:clamp(48px,6vw,88px)">
+    <div class="stats">
+      <div data-reveal="fade" class="stat"><span class="stat-n">+<span data-count="17">17</span></span><span class="muted">años de trayectoria</span></div>
+      <div data-reveal="fade" data-delay="70" class="stat"><span class="stat-n"><span data-count={PROYECTOS.length}>{PROYECTOS.length}</span></span><span class="muted">casas en este portfolio</span></div>
+      <div data-reveal="fade" data-delay="140" class="stat"><span class="stat-n teca">[cifra]</span><span class="muted">[casas entregadas]</span></div>
+      <div data-reveal="fade" data-delay="210" class="stat"><span class="stat-n">&lt;<span data-count="24">24</span> h</span><span class="muted">de respuesta, en días laborables</span></div>
+    </div>
+    <div class="grid-auto" style="--min:320px">
+      <div data-reveal="fade" class="sand col between" style="padding:clamp(28px,3vw,44px);gap:32px">
+        <span class="lbl muted">Reseñas en Google</span>
+        <span class="serif" style="font-size:clamp(48px,5vw,80px);line-height:1">[valoración]</span>
+        <span class="muted" style="font-size:16px">[nº de reseñas Google] · [enlace a la ficha]</span>
+      </div>
+      <figure data-reveal="fade" data-delay="80" class="quote bt">
+        <blockquote class="serif">«[Testimonio cliente: dos o tres frases reales sobre el proceso.]»</blockquote>
+        <figcaption class="muted">[Nombre del cliente] · Casa [nombre]</figcaption>
+      </figure>
+      <figure data-reveal="fade" data-delay="160" class="quote bt">
+        <blockquote class="serif">«[Testimonio cliente: dos o tres frases reales sobre la obra.]»</blockquote>
+        <figcaption class="muted">[Nombre del cliente] · Casa [nombre]</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Municipios -->
+  <section class="sec sand row" style="gap:40px clamp(32px,5vw,96px)">
+    <div class="col" style="flex:1 1 260px;gap:20px;max-width:380px">
+      <span class="lbl muted">Dónde trabajamos</span>
+      <p class="body">Madrid oeste y alrededores. También proyectamos en Toledo, Segovia, Ávila y Guadalajara.</p>
+    </div>
+    <ul class="munis" style="flex:2 1 480px">
+      {municipios.map((m, i) => <li data-reveal="fade" data-delay={String(i * 60)}>{m}</li>)}
+      <li data-reveal="fade" data-delay="240" class="i teca">y alrededores</li>
+    </ul>
+  </section>
+
+  <!-- Diario -->
+  <section class="sec col" style="gap:clamp(40px,5vw,72px)">
+    <div class="row between baseline" style="gap:24px">
+      <h2 class="h" style="--fs:clamp(40px,4.4vw,68px)">Diario</h2>
+      <span class="muted" style="font-size:15px">Notas del estudio para quien va a construir</span>
+    </div>
+    <div class="grid-auto" style="--min:300px">
+      {diario.map((a) => (
+        <article class="col post" style="gap:16px">
+          <Foto src={a.img} alt={a.alt} ratio="3/2" sizes="(max-width: 819px) 100vw, 33vw" />
+          <span class="lbl muted">{a.tag} · [Fecha]</span>
+          <h3 class="h3" style="--fs:clamp(24px,2vw,30px)">{a.t}</h3>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Cierre -->
+  <section class="sec bt col" style="gap:40px">
+    <span class="lbl teca">¿Empezamos?</span>
+    <h2 class="h" style="--fs:clamp(56px,10.4vw,160px);--lh:.94;--ls:-.028em">
+      <span class="ln"><span data-reveal="up">Cuéntanos</span></span>
+      <span class="ln"><span data-reveal="up" data-delay="70" class="i">tu parcela.</span></span>
+    </h2>
+    <div data-reveal="fade" class="row" style="align-items:center;gap:20px 32px">
+      <a href="/contacto/" class="btn">Cuéntanos tu parcela <span>→</span></a>
+      <a href={CONTACTO.wa} target="_blank" rel="noopener" class="link">Escríbenos por WhatsApp</a>
+      <span class="muted" style="font-size:16px">Respuesta en menos de 24 h laborables.</span>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .abs { position: absolute; inset: 0; }
+  .hero { position: relative; height: 100svh; min-height: 620px; overflow: hidden; }
+  .hero-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(28,27,25,.35) 0%, rgba(28,27,25,0) 22%, rgba(28,27,25,0) 40%, rgba(28,27,25,.72) 100%); }
+  .hero-txt { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(96px, 9vh, 72px); display: flex; flex-direction: column; gap: clamp(24px, 3vw, 40px); }
+  .hero-sec { font-size: 15px; color: var(--cal); border-bottom: 1px solid rgba(242,238,231,.6); padding-bottom: 3px; }
+  .hero-sec:hover { color: var(--teca-claro); }
+  @media (max-width: 819px) { .desk, .desk-b { display: none !important; } .hero-txt { bottom: 40px; } }
+  @media (min-width: 820px) { .hero-shade { background: linear-gradient(90deg, rgba(28,27,25,.38) 0%, rgba(28,27,25,0) 62%), linear-gradient(180deg, rgba(28,27,25,.35) 0%, rgba(28,27,25,0) 22%, rgba(28,27,25,0) 40%, rgba(28,27,25,.72) 100%); } }
+  @media (min-width: 820px) { .mob-b { display: none !important; } }
+
+  .hs { position: relative; height: 440vh; }
+  .hs-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: clamp(28px, 4vh, 48px); }
+  .hs-rail { position: relative; height: 1px; background: var(--linea); }
+  .hs-bar { position: absolute; inset: 0; background: var(--tinta); transform-origin: left; transform: scaleX(.16); }
+  .hs-track { display: flex; gap: clamp(24px, 3vw, 48px); padding: 0 var(--pad); width: max-content; will-change: transform; }
+  .hs-card { flex: none; }
+
+  .swipe { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 20px; scrollbar-width: none; }
+  .swipe::-webkit-scrollbar { display: none; }
+  .swipe-card { flex: none; width: 80vw; scroll-snap-align: center; gap: 12px; }
+
+  .sticky-col { position: sticky; top: 110px; }
+  @media (max-width: 819px) { .sticky-col { position: static; } }
+  .pilar { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px 24px; padding: 32px 0; border-top: 1px solid var(--linea); }
+
+  .proc { position: relative; padding-left: clamp(28px, 4vw, 56px); }
+  .proc-rail, .proc-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--noche-linea); }
+  .proc-line { background: var(--teca-claro); transform-origin: top; transform: scaleY(0); }
+  .proc-phase { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px clamp(24px, 4vw, 72px); padding: clamp(28px, 3.4vw, 48px) 0; border-top: 1px solid var(--noche-linea); transition: opacity 700ms ease; }
+  .proc-num { flex: 0 0 clamp(110px, 14vw, 220px); font-family: var(--serif); font-weight: 200; font-size: clamp(72px, 9vw, 140px); line-height: .85; color: #4a4640; transition: color 700ms ease; }
+
+  .person { gap: 6px; padding-top: 16px; border-top: 1px solid var(--tinta); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); border-top: 1px solid var(--tinta); }
+  .stat { padding: 28px 24px 28px 0; border-bottom: 1px solid var(--linea); display: flex; flex-direction: column; gap: 10px; font-size: 16px; }
+  .stat-n { font-family: var(--serif); font-weight: 300; font-size: clamp(64px, 7vw, 112px); line-height: .9; }
+  .quote { padding: clamp(28px, 3vw, 44px) 0; display: flex; flex-direction: column; gap: 24px; }
+  .quote blockquote { font-size: clamp(24px, 2.2vw, 32px); line-height: 1.25; letter-spacing: 0; }
+  .quote figcaption { font-size: 15px; }
+
+  .munis { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .munis li { padding: 14px 0; border-top: 1px solid var(--linea-2); font-family: var(--serif); font-weight: 300; font-size: clamp(40px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.02em; }
+  .munis li:first-child { border-top-color: var(--tinta); }
+  .munis li:last-child { border-bottom: 1px solid var(--linea-2); font-style: italic; }
+</style>

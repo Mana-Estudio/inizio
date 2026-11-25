@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import equipo from '../assets/img/equipo.jpg';
+import materiales from '../assets/img/materiales.png';
+
+const metodo = [
+  ['I', 'Escuchar antes de dibujar.', 'Tu forma de vivir y tu parcela marcan el proyecto.'],
+  ['II', 'Dibujarlo todo antes de construir.', 'Un proyecto completo permite comparar presupuestos con criterio.'],
+  ['III', 'Estar en la obra.', 'Dirigimos la obra y representamos tus intereses hasta la entrega.'],
+];
+---
+<Base
+  title="Estudio · INIZIO Arquitectos"
+  description="Carlos Granero y Javier Blázquez: el equipo de INIZIO, estudio de arquitectura de vivienda unifamiliar en Pozuelo de Alarcón."
+>
+  <section class="page-top px col" style="padding-bottom:clamp(64px,8vw,120px);gap:clamp(32px,4vw,56px)">
+    <span data-reveal="fade" class="lbl teca">Estudio</span>
+    <h1 class="h" style="--fs:clamp(56px,9vw,144px);--lh:.95;--ls:-.028em">
+      <span class="ln"><span data-reveal="up">Las personas</span></span>
+      <span class="ln"><span data-reveal="up" data-delay="70" class="i">detrás de tu casa.</span></span>
+    </h1>
+  </section>
+
+  <section class="px row" style="padding-bottom:var(--sec);gap:56px clamp(24px,4vw,64px);align-items:flex-start">
+    <div style="flex:1.2 1 420px">
+      <Foto src={equipo} alt="Carlos Granero y Javier Blázquez, socios de INIZIO" ratio="1/1" pos="50% 30%" sizes="(max-width: 819px) 100vw, 55vw" />
+      <p class="muted" style="font-size:14px;margin-top:14px">[Retratos nuevos con el mismo tratamiento: luz natural, fondo cal, mismo encuadre]</p>
+    </div>
+    <div class="col" style="flex:1 1 360px;gap:56px;padding-top:clamp(0px,6vw,96px)">
+      <article class="col person">
+        <span class="lbl muted">Arquitecto · Socio</span>
+        <h2 class="h" style="--fs:clamp(36px,3.6vw,56px)">Carlos Granero</h2>
+        <p class="body" style="max-width:30em">Más de 17 años de trayectoria. En 2006 fundó Estudio MyMG. Diseña cada casa y dirige su obra.</p>
+      </article>
+      <article class="col person">
+        <span class="lbl muted">Ingeniero técnico · Cofundador</span>
+        <h2 class="h" style="--fs:clamp(36px,3.6vw,56px)">Javier Blázquez</h2>
+        <p class="body" style="max-width:30em">Cofundador de INIZIO. Lleva la estrategia y el negocio del estudio.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec dark row" style="gap:48px clamp(40px,6vw,120px)">
+    <div class="col" style="flex:1 1 260px;max-width:380px;gap:20px">
+      <span class="lbl" style="color:var(--teca-claro)">Método</span>
+      <p class="body" style="color:var(--noche-texto)">Tres reglas que aplicamos en todas las casas.</p>
+    </div>
+    <div class="col" style="flex:2 1 480px">
+      {metodo.map(([n, t, d], i) => (
+        <div data-reveal="fade" class="regla" style={i === 0 ? 'border-top-color:var(--cal)' : i === 2 ? 'border-bottom:1px solid var(--noche-linea)' : ''}>
+          <span class="serif" style="font-size:22px;font-weight:400;color:var(--teca-claro)">{n}</span>
+          <div class="col" style="gap:10px"><h3 class="h" style="--fs:clamp(32px,3.4vw,52px);--lh:1.05">{t}</h3><p class="body" style="color:var(--noche-texto)">{d}</p></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec col" style="gap:clamp(20px,2.4vw,40px)">
+    <div class="row between baseline" style="gap:24px;margin-bottom:clamp(16px,2vw,32px)">
+      <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">El estudio por dentro</h2>
+      <span class="muted" style="font-size:15px">Avenida de Europa 26, 2.ª planta · Pozuelo de Alarcón</span>
+    </div>
+    <Foto label="Estudio · mesa de trabajo con planos y maquetas [foto pendiente]" tone="#DAD3C6" ratio="21/9" />
+    <div class="grid-auto" style="--min:320px;--gap:clamp(20px,2.4vw,40px)">
+      <Foto src={materiales} alt="Muestras de piedra y madera sobre planos" ratio="4/5" sizes="(max-width: 819px) 100vw, 50vw" />
+      <Foto label="Sala de reuniones con clientes [foto pendiente]" tone="#B3A999" ratio="4/5" />
+    </div>
+  </section>
+
+  <section id="circulo" class="px" style="padding-bottom:var(--sec);scroll-margin-top:100px">
+    <div data-reveal="fade" class="circulo">
+      <div class="col" style="flex:1.2 1 340px;gap:24px">
+        <span class="lbl teca">Círculo INIZIO</span>
+        <h2 class="h" style="--fs:clamp(36px,4vw,64px);--lh:1.02">Las mejores casas llegan <em>por recomendación.</em></h2>
+        <a href="/contacto/?tipo=recomendacion" class="link" style="align-self:flex-start">Recomendar a alguien →</a>
+      </div>
+      <div class="circ-grid" style="flex:1 1 300px">
+        <div class="col circ"><span class="serif" style="font-size:clamp(40px,4vw,60px);line-height:1">1.000 €</span><span class="muted">hasta, para quien recomienda</span></div>
+        <div class="col circ"><span class="serif" style="font-size:clamp(40px,4vw,60px);line-height:1">5 %</span><span class="muted">de descuento para el recomendado</span></div>
+        <span class="muted" style="grid-column:1 / -1;font-size:14px">[Condiciones del programa]</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bt row between end" style="padding-top:clamp(80px,9vw,140px);padding-bottom:clamp(80px,9vw,140px);gap:32px">
+    <h2 class="h" style="--fs:clamp(44px,6vw,96px);--lh:.98;--ls:-.024em">Ven a conocernos<br /><em class="teca">al estudio.</em></h2>
+    <a href="/contacto/" class="btn">Cuéntanos tu parcela <span>→</span></a>
+  </section>
+</Base>
+
+<style>
+  .person { gap: 12px; padding-top: 20px; border-top: 1px solid var(--tinta); }
+  .regla { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px 24px; padding: 32px 0; border-top: 1px solid var(--noche-linea); }
+  .circulo { border: 1px solid var(--tinta); padding: clamp(32px, 5vw, 80px); display: flex; flex-wrap: wrap; gap: 40px clamp(40px, 6vw, 112px); align-items: flex-end; }
+  .circ-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .circ { gap: 10px; padding-top: 16px; border-top: 1px solid var(--linea); font-size: 15px; line-height: 1.5; }
+</style>

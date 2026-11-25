@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src?: ImageMetadata;
+  alt?: string;
+  /** Texto del marcador cuando todavía no hay foto real */
+  label?: string;
+  ratio?: string;
+  /** Alto fijo (ej. "100%"); si se pasa, ignora ratio */
+  h?: string;
+  reveal?: 'curtain' | 'hero' | 'fade' | 'none';
+  px?: boolean;
+  tone?: string;
+  pos?: string;
+  sizes?: string;
+  eager?: boolean;
+  vt?: string;
+  class?: string;
+  style?: string;
+  imgStyle?: string;
+}
+
+const {
+  src, alt = '', label, ratio = '3/2', h, reveal = 'curtain', px = true, tone = '#B3A999',
+  pos = '50% 50%', sizes = '100vw', eager = false, vt, class: cls = '', style = '', imgStyle = '',
+} = Astro.props;
+
+const widths = src ? [480, 800, 1200, 1600, 2200].filter((w) => w < src.width).concat(Math.min(src.width, 2400)) : [];
+const box = h ? `height:${h};` : `aspect-ratio:${ratio};`;
+---
+<div
+  class:list={['foto', cls]}
+  data-reveal={reveal}
+  style={`${box}--tone:${tone};${vt ? `view-transition-name:${vt};` : ''}${style}`}
+>
+  <div data-zoom>
+    <div data-img data-parallax={px ? 'on' : 'off'} class:list={[!px && 'nopx']}>
+      {src ? (
+        <Image
+          src={src}
+          alt={alt}
+          widths={widths}
+          sizes={sizes}
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : 'auto'}
+          style={`object-position:${pos};${imgStyle}`}
+        />
+      ) : (
+        <div class="ph-fill" />
+      )}
+    </div>
+  </div>
+  {!src && label && <span class="ph-label">{label}</span>}
+  <slot />
+</div>

@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import ladera from '../assets/img/ladera.png';
+import bocetos from '../assets/img/bocetos.jpg';
+import materiales from '../assets/img/materiales.png';
+
+const fases = [
+  { id: 'f01', n: '01', title: 'Estudio de la parcela', img: ladera, alt: 'Casa escalonada adaptada a una parcela en pendiente', text: 'Antes de dibujar, sabemos qué permite tu parcela y qué le pide la casa.', items: ['Visita y toma de datos de la parcela', 'Análisis de la normativa urbanística', 'Orientación, vistas y topografía', 'Primer encaje de lo que se puede construir'] },
+  { id: 'f02', n: '02', title: 'Diseño y proyecto', img: bocetos, alt: 'Manos dibujando bocetos junto a muestras de materiales', text: 'Diseñamos contigo hasta el último detalle, para que la obra no tenga que improvisar.', items: ['Anteproyecto: bocetos y volumetría', 'Proyecto básico para licencia', 'Proyecto de ejecución detallado', 'Mediciones y memoria de calidades'] },
+  { id: 'f03', n: '03', title: 'Elegimos bien con quién construir', img: materiales, alt: 'Muestras de piedra y madera sobre planos', text: 'Pedimos ofertas y las comparamos contigo con total independencia.', items: ['Selección de constructoras', 'Comparativa de presupuestos, calidades y plazos', 'Revisión del contrato de obra', 'Recomendación independiente'] },
+  { id: 'f04', n: '04', title: 'Dirección de obra', label: 'Visita de obra · estructura [foto pendiente]', text: 'Estamos en la obra y defendemos tus intereses hasta la entrega.', items: ['Visitas periódicas a obra', 'Control de calidad, plazos y certificaciones', 'Interlocución con la constructora', 'Acompañamiento hasta la entrega'] },
+];
+const honorarios = ['01 Estudio de la parcela', '02 Diseño y proyecto', '03 Selección de constructora', '04 Dirección de obra'];
+const faqs = [
+  ['¿Necesito tener parcela para empezar?', 'No. Si la estás buscando, cuéntanos qué parcelas barajas y te diremos qué conviene revisar antes de comprar.'],
+  ['¿Quién elige la constructora?', 'Tú, con nuestro asesoramiento independiente. Comparamos presupuestos, calidades y plazos y te explicamos las diferencias.'],
+  ['¿Con quién hablo durante el proceso?', 'Directamente con los arquitectos responsables de tu casa, desde la primera reunión hasta la entrega.'],
+  ['¿En qué zonas trabajáis?', 'Pozuelo de Alarcón, Madrid, Majadahonda, Las Rozas y alrededores. También en Toledo, Segovia, Ávila y Guadalajara.'],
+  ['¿Cuánto dura el proceso completo?', '[Plazo orientativo por fases: dato del estudio.]'],
+];
+---
+<Base
+  title="Cómo trabajamos · INIZIO Arquitectos"
+  description="Cuatro fases y el mismo equipo de principio a fin: estudio de la parcela, diseño y proyecto, selección independiente de constructora y dirección de obra."
+>
+  <section class="page-top px col" style="padding-bottom:clamp(64px,8vw,120px);gap:clamp(32px,4vw,56px)">
+    <span data-reveal="fade" class="lbl teca">Cómo trabajamos</span>
+    <h1 class="h" style="--fs:clamp(56px,9vw,144px);--lh:.95;--ls:-.028em">
+      <span class="ln"><span data-reveal="up">Un proceso claro,</span></span>
+      <span class="ln"><span data-reveal="up" data-delay="70" class="i">contigo en cada fase.</span></span>
+    </h1>
+    <div data-reveal="fade" data-delay="160" class="row bt-ink" style="gap:24px clamp(32px,5vw,96px);padding-top:32px">
+      <p class="body" style="flex:1 1 320px;max-width:32em">Diseñamos la casa, te ayudamos a elegir constructora con independencia y dirigimos la obra. Representamos tus intereses de principio a fin.</p>
+      <nav class="row" style="flex:1 1 320px;gap:12px;align-content:flex-start" aria-label="Fases">
+        <a href="#f01" class="jump">01 Parcela</a><a href="#f02" class="jump">02 Proyecto</a><a href="#f03" class="jump">03 Constructora</a><a href="#f04" class="jump">04 Obra</a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="px" style="padding-bottom:var(--sec)">
+    <div data-process class="proc">
+      <div class="rail" /><div data-line class="line" />
+      {fases.map((f) => (
+        <article id={f.id} data-phase data-on="#9A5B3C" data-off="#CFC7BA" class="fase">
+          <div class="col" style="flex:1 1 260px;max-width:420px;gap:20px">
+            <span data-num class="num">{f.n}</span>
+            <h2 class="h3" style="--fs:clamp(32px,3.2vw,52px);letter-spacing:-.015em;line-height:1.05">{f.title}</h2>
+            <p class="body" style="max-width:28em">{f.text}</p>
+          </div>
+          <div class="col" style="flex:1.6 1 420px;gap:28px">
+            <Foto src={f.img} alt={f.alt ?? ''} label={f.label} tone="#8A5D43" ratio="16/9" sizes="(max-width: 819px) 100vw, 55vw" />
+            <div class="col">
+              <span class="lbl muted" style="padding-bottom:12px">Qué incluye</span>
+              <ul class="items">{f.items.map((it) => <li>{it}</li>)}</ul>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec dark row" style="gap:48px clamp(40px,6vw,120px)">
+    <div class="col" style="flex:1 1 300px;max-width:440px;gap:24px">
+      <span class="lbl" style="color:var(--teca-claro)">Honorarios orientativos</span>
+      <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">Sabrás lo que cuesta <em>antes de empezar.</em></h2>
+      <p class="body" style="color:var(--noche-texto)">[Nota del estudio sobre cómo se calculan los honorarios.]</p>
+    </div>
+    <div class="col" style="flex:1.4 1 420px;border-top:1px solid var(--cal)">
+      {honorarios.map((h) => <div class="hon"><span>{h}</span><span style="color:var(--teca-claro)">[Honorarios]</span></div>)}
+      <span style="padding-top:18px;font-size:15px;color:var(--noche-gris-2)">[Condiciones y forma de pago]</span>
+    </div>
+  </section>
+
+  <section class="sec row" style="gap:48px clamp(40px,6vw,120px)">
+    <h2 class="h" style="flex:1 1 280px;max-width:420px;--fs:clamp(40px,4.8vw,76px)">Preguntas frecuentes</h2>
+    <div class="bt-ink" style="flex:1.6 1 460px">
+      {faqs.map(([q, a], i) => (
+        <details class="faq" open={i === 0} name="faq">
+          <summary><span>{q}</span><span class="plus" aria-hidden="true">+</span></summary>
+          <div class="ans"><p class="body">{a}</p></div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec bt row between end" style="padding-top:clamp(80px,9vw,140px);padding-bottom:clamp(80px,9vw,140px);gap:32px">
+    <h2 class="h" style="--fs:clamp(44px,6vw,96px);--lh:.98;--ls:-.024em">La fase 01 empieza<br /><em class="teca">con una conversación.</em></h2>
+    <a href="/contacto/" class="btn">Cuéntanos tu parcela <span>→</span></a>
+  </section>
+</Base>
+
+<style>
+  .jump { font-size: 15px; border: 1px solid var(--linea-2); padding: 10px 14px; transition: border-color 300ms ease; }
+  .jump:hover { border-color: var(--teca); }
+  .proc { position: relative; padding-left: clamp(24px, 4vw, 56px); }
+  .rail, .line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--linea); }
+  .line { background: var(--teca); transform-origin: top; transform: scaleY(0); }
+  .fase { display: flex; flex-wrap: wrap; gap: 32px clamp(32px, 5vw, 96px); padding: clamp(48px, 6vw, 96px) 0; border-top: 1px solid var(--linea); transition: opacity 700ms ease; scroll-margin-top: 80px; }
+  .num { font-family: var(--serif); font-weight: 200; font-size: clamp(96px, 12vw, 180px); line-height: .8; color: var(--linea-2); transition: color 700ms ease; }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); column-gap: 32px; }
+  .items li { padding: 14px 0; border-top: 1px solid var(--linea); font-size: 17px; line-height: 1.45; }
+  .hon { display: flex; justify-content: space-between; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--noche-linea); font-size: 18px; }
+
+  .faq { border-bottom: 1px solid var(--linea); }
+  .faq summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px 0; cursor: pointer; font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 1.9vw, 28px); line-height: 1.25; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .plus { flex: none; width: 32px; height: 32px; border: 1px solid var(--tinta); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 18px; transition: transform 600ms var(--expo), background-color 300ms ease; }
+  .faq[open] .plus { transform: rotate(45deg); }
+  .faq summary:hover .plus { background: var(--tinta); color: var(--cal); }
+  .ans p { padding: 0 56px 28px 0; max-width: 36em; }
+  .faq::details-content { block-size: 0; overflow: hidden; transition: block-size 600ms var(--expo), content-visibility 600ms allow-discrete; }
+  .faq[open]::details-content { block-size: auto; }
+  :global(html) { interpolate-size: allow-keywords; }
+</style>

@@ -1,0 +1,170 @@
+---
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/Foto.astro';
+import { PROYECTOS, type Proyecto } from '../../data/proyectos';
+import materiales from '../../assets/img/materiales.png';
+import bocetos from '../../assets/img/bocetos.jpg';
+
+export function getStaticPaths() {
+  return PROYECTOS.map((p, i) => ({ params: { slug: p.slug }, props: { p, next: PROYECTOS[(i + 1) % PROYECTOS.length] } }));
+}
+interface Props { p: Proyecto; next: Proyecto }
+const { p, next } = Astro.props;
+const datos = [
+  ['Municipio', `[${p.muni}]`],
+  ['Año', '[Año]'],
+  ['Construidos', '[m²]'],
+  ['Parcela', '[m²]'],
+  ['Estado', `[${p.estado}]`],
+  ['Servicios', 'Proyecto · Selección de constructora · Dirección de obra'],
+];
+---
+<Base
+  title={`${p.name} · Proyectos · INIZIO Arquitectos`}
+  description={`${p.name}: ${p.lema} Vivienda unifamiliar proyectada por INIZIO, estudio de arquitectura en Pozuelo de Alarcón.`}
+  image={p.img.src}
+>
+  <section data-hero class="fhero dark">
+    <div class="abs"><Foto src={p.img} alt={`${p.name}: ${p.lema}`} h="100%" reveal="hero" eager pos={p.pos} vt={`casa-${p.slug}`} /></div>
+    <div class="fshade" />
+    <div class="ftxt">
+      <div class="col" style="gap:20px">
+        <span data-reveal="fade" class="lbl">{p.idx} · {p.estado}</span>
+        <h1 class="h" style="--fs:clamp(64px,12vw,184px);--lh:.9;--ls:-.03em">
+          <span class="ln"><span data-reveal="up" data-delay="80">{p.name}</span></span>
+        </h1>
+      </div>
+      <span data-reveal="fade" data-delay="200" style="font-size:15px">[{p.muni}] · [Año]</span>
+    </div>
+  </section>
+
+  <section class="sec row" style="padding-top:clamp(80px,10vw,160px);padding-bottom:clamp(80px,10vw,160px);gap:56px clamp(40px,6vw,120px)">
+    <dl data-reveal="fade" class="ficha">
+      {datos.map(([k, v]) => (<><dt class="lbl muted">{k}</dt><dd>{v}</dd></>))}
+    </dl>
+    <div class="col" style="flex:2 1 480px;gap:28px;max-width:760px">
+      <span class="lbl teca">El encargo</span>
+      <p data-reveal="fade" class="h" style="--fs:clamp(26px,2.4vw,36px);--lh:1.28;--ls:0;text-wrap:pretty">{p.lema} {p.name} empieza con una familia y una parcela en [municipio]. El encargo: [programa de la casa y prioridades de la familia].</p>
+      <p data-reveal="fade" class="body">La casa se organiza en volúmenes puros que se abren al jardín con grandes ventanales. [Materiales de fachada y decisión de proyecto clave].</p>
+      <p data-reveal="fade" class="body">Comparamos [nº] presupuestos de constructora con la familia, por precio, calidades y plazo. Durante los [nº] meses de obra fuimos su interlocutor frente a la constructora, hasta la entrega.</p>
+      <span class="muted" style="font-size:14px">[Relato provisional: validar con el estudio]</span>
+    </div>
+  </section>
+
+  <section class="col" style="gap:clamp(20px,2.4vw,40px);padding-bottom:clamp(80px,10vw,160px)">
+    <figure class="col" style="gap:14px">
+      <Foto src={p.img} alt={`${p.name}, vista general`} ratio="16/9" pos={p.pos} />
+      <figcaption class="px muted" style="font-size:14px">{p.name} — vista general</figcaption>
+    </figure>
+    <div class="px grid-auto" style="--min:320px;--gap:clamp(20px,2.4vw,40px)">
+      <Foto src={p.img} alt={`${p.name}, detalle de fachada`} ratio="4/5" pos="30% 50%" sizes="(max-width: 819px) 100vw, 50vw" imgStyle="transform:scale(1.5);transform-origin:30% 55%" />
+      <Foto src={p.img} alt={`${p.name}, detalle del jardín`} ratio="4/5" pos="75% 60%" sizes="(max-width: 819px) 100vw, 50vw" imgStyle="transform:scale(1.5);transform-origin:75% 70%" />
+    </div>
+    <div class="px row end" style="padding-top:clamp(40px,6vw,96px);padding-bottom:clamp(40px,6vw,96px);gap:32px clamp(32px,5vw,96px)">
+      <p class="h" style="flex:1 1 280px;max-width:22em;--fs:clamp(26px,2.4vw,36px);--lh:1.25;--ls:0">[Frase breve sobre la luz o el material de la casa.]</p>
+      <figure class="col" style="flex:1.3 1 360px;gap:14px">
+        <Foto src={materiales} alt="Muestras de piedra y madera sobre los planos del proyecto" ratio="3/2" sizes="(max-width: 819px) 100vw, 55vw" />
+        <figcaption class="muted" style="font-size:14px">Materiales del proyecto · [foto de detalle de la casa pendiente]</figcaption>
+      </figure>
+    </div>
+    <Foto label={`${p.name} · fachada al atardecer [foto pendiente]`} tone="#A26F4F" ratio="21/9" />
+  </section>
+
+  <section class="sec dark col" style="padding-top:clamp(80px,10vw,160px);padding-bottom:clamp(80px,10vw,160px);gap:clamp(40px,5vw,72px)">
+    <div class="row between end" style="gap:24px">
+      <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">Planos y bocetos</h2>
+      <span style="font-size:15px;color:var(--noche-gris-2)">Del primer croquis al proyecto de ejecución</span>
+    </div>
+    <div class="grid-auto" style="--min:340px;--gap:clamp(20px,2.4vw,40px)">
+      <figure class="col" style="gap:14px">
+        <Foto label="Plano · planta baja [pendiente]" tone="#DAD3C6" ratio="4/3" />
+        <figcaption style="font-size:14px;color:var(--noche-gris-2)">Planta baja</figcaption>
+      </figure>
+      <figure class="col" style="gap:14px">
+        <Foto src={bocetos} alt="Bocetos de sección y muestras de materiales sobre la mesa" ratio="4/3" sizes="(max-width: 819px) 100vw, 50vw" />
+        <figcaption style="font-size:14px;color:var(--noche-gris-2)">Bocetos de trabajo</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec col" style="padding-top:clamp(80px,10vw,160px);padding-bottom:clamp(80px,10vw,160px);gap:32px">
+    <div class="row between end" style="gap:24px">
+      <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">Del render <em class="teca">a la obra</em></h2>
+      <span class="muted" style="font-size:15px">Arrastra para comparar</span>
+    </div>
+    <div data-reveal="fade" data-compare class="cmp" style="--pos:50%">
+      <div class="cmp-layer">
+        <Foto src={p.img} alt="" h="100%" reveal="none" px={false} pos={p.pos} imgStyle="filter:grayscale(1) contrast(.9) brightness(1.05)" />
+        <span class="cmp-note">Foto de obra terminada · mismo encuadre [pendiente]</span>
+      </div>
+      <div class="cmp-layer cmp-top"><Foto src={p.img} alt={`Render de ${p.name}`} h="100%" reveal="none" px={false} pos={p.pos} /></div>
+      <div class="cmp-line" />
+      <div class="cmp-knob" tabindex="0" role="slider" aria-label="Comparar render y obra terminada" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span>‹</span><span>›</span></div>
+      <span class="cmp-tag cmp-tag--l">Render</span>
+      <span class="cmp-tag cmp-tag--r">Obra terminada</span>
+    </div>
+  </section>
+
+  <section class="px" style="padding-bottom:clamp(80px,10vw,160px)">
+    <figure class="row bt-ink" style="padding-top:clamp(48px,6vw,88px);gap:32px clamp(32px,5vw,96px)">
+      <span class="lbl muted" style="flex:1 1 200px;max-width:300px">La familia</span>
+      <div class="col" style="flex:3 1 480px;gap:28px">
+        <blockquote class="h" style="--fs:clamp(32px,3.8vw,60px);--lh:1.12;--ls:-.015em">«[Testimonio cliente de {p.name}: una o dos frases reales.]»</blockquote>
+        <figcaption class="muted" style="font-size:16px">[Nombre], propietarios de {p.name}</figcaption>
+      </div>
+    </figure>
+    <div class="row between bt" style="margin-top:clamp(56px,7vw,112px);align-items:center;gap:24px;padding:28px 0;border-bottom:1px solid var(--linea)">
+      <span class="serif" style="font-size:clamp(24px,2.2vw,32px);font-weight:400;letter-spacing:0">¿Tienes una parcela parecida?</span>
+      <a href="/contacto/" class="btn">Cuéntanos tu parcela <span>→</span></a>
+    </div>
+  </section>
+
+  <a href={`/proyectos/${next.slug}/`} data-card data-cursor="Siguiente" class="next">
+    <div class="abs"><Foto src={next.img} alt={`${next.name}: ${next.lema}`} h="100%" pos={next.pos} vt={`casa-${next.slug}`} /></div>
+    <div class="abs" style="background:rgba(28,27,25,.42);pointer-events:none" />
+    <div class="next-txt">
+      <span class="lbl">Siguiente proyecto · {next.idx}</span>
+      <span class="h" style="--fs:clamp(56px,10vw,160px);--lh:.9;--ls:-.03em">{next.name} →</span>
+    </div>
+  </a>
+</Base>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-compare]');
+  const knob = el?.querySelector<HTMLElement>('.cmp-knob');
+  if (el && knob) {
+    let pos = 50, drag = false;
+    const set = (v: number) => { pos = Math.max(0, Math.min(100, v)); el.style.setProperty('--pos', pos + '%'); knob.setAttribute('aria-valuenow', String(Math.round(pos))); };
+    const from = (e: PointerEvent) => { const r = el.getBoundingClientRect(); set(((e.clientX - r.left) / r.width) * 100); };
+    el.addEventListener('pointerdown', (e) => { drag = true; el.setPointerCapture(e.pointerId); from(e); });
+    el.addEventListener('pointermove', (e) => { if (drag) from(e); });
+    el.addEventListener('pointerup', () => (drag = false));
+    el.addEventListener('pointercancel', () => (drag = false));
+    knob.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') set(pos - 5); if (e.key === 'ArrowRight') set(pos + 5); });
+  }
+</script>
+
+<style>
+  .abs { position: absolute; inset: 0; }
+  .fhero { position: relative; height: 100svh; min-height: 600px; overflow: hidden; }
+  .fshade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(28,27,25,.35) 0%, rgba(28,27,25,0) 25%, rgba(28,27,25,0) 50%, rgba(28,27,25,.7) 100%); }
+  .ftxt { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(32px, 5vw, 64px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .ficha { flex: 1 1 300px; max-width: 420px; display: grid; grid-template-columns: auto minmax(0, 1fr); border-top: 1px solid var(--tinta); align-self: flex-start; }
+  .ficha dt { padding: 14px 24px 14px 0; border-bottom: 1px solid var(--linea); letter-spacing: .14em; line-height: 1.6; }
+  .ficha dd { padding: 14px 0; border-bottom: 1px solid var(--linea); font-size: 17px; line-height: 1.5; }
+
+  .cmp { position: relative; aspect-ratio: 16/9; overflow: hidden; cursor: ew-resize; touch-action: pan-y; user-select: none; background: var(--tinta); }
+  @media (max-width: 819px) { .cmp { aspect-ratio: 4/5; } }
+  .cmp-layer { position: absolute; inset: 0; }
+  .cmp-top { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .cmp-note { position: absolute; right: 16px; top: 16px; max-width: 60%; text-align: right; font: 500 11px/1.4 ui-monospace, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta); background: rgba(242,238,231,.85); padding: 8px 10px; }
+  .cmp-line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 1px; background: var(--cal); }
+  .cmp-knob { position: absolute; top: 50%; left: var(--pos); width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: var(--cal); color: var(--tinta); display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; box-shadow: 0 6px 24px rgba(28,27,25,.25); }
+  .cmp-tag { position: absolute; bottom: 16px; padding: 8px 12px; font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+  .cmp-tag--l { left: 16px; background: var(--cal); color: var(--tinta); }
+  .cmp-tag--r { right: 16px; background: var(--tinta); color: var(--cal); }
+
+  .next { display: block; position: relative; height: clamp(420px, 80vh, 820px); overflow: hidden; color: var(--cal); }
+  .next:hover { color: var(--cal); }
+  .next-txt { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(32px, 5vw, 64px); display: flex; flex-direction: column; gap: 16px; pointer-events: none; }
+</style>

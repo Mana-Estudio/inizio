@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import { CONTACTO } from '../data/proyectos';
+import promocion from '../assets/img/promocion-piscina.webp';
+import torres from '../assets/img/promo-torres.png';
+import edificio from '../assets/img/promo-edificio.png';
+import urbanizacion from '../assets/img/promo-urbanizacion.png';
+
+// Barras de plazo sobre una escala de 23 semanas (posición y ancho en %).
+const plazos = [
+  { n: '01', t: 'Análisis del activo', d: '3 días', left: 0, w: 2.6, grad: false },
+  { n: '02', t: 'Producto optimizado', d: '3–4 semanas', left: 2.6, w: 17.4, grad: 75 },
+  { n: '03', t: 'Proyecto para licencia', d: '6–8 semanas', left: 20, w: 34.8, grad: 75 },
+  { n: '04', t: 'Desarrollo técnico', d: '8–10 semanas', left: 54.8, w: 43.5, grad: 80 },
+];
+const aportes = [
+  ['01', 'Claridad urbanística', 'Qué permite el suelo, con qué edificabilidad y en qué condiciones, desde el primer análisis.'],
+  ['02', 'Producto competitivo', 'Tipologías y superficies pensadas para el comprador de la zona y para la rentabilidad del suelo.'],
+  ['03', 'Rigor técnico', 'Proyecto de licencia y desarrollo técnico completos y coordinados, listos para licitar la obra.'],
+];
+const casos = [
+  { img: torres, alt: 'Promoción de dos torres residenciales con zonas comunes' },
+  { img: urbanizacion, alt: 'Vista aérea de una urbanización de viviendas unifamiliares' },
+  { img: edificio, alt: 'Edificio residencial plurifamiliar iluminado al anochecer' },
+];
+---
+<Base
+  title="Promotoras · INIZIO Arquitectos"
+  description="Arquitectura residencial para promotoras en Madrid: análisis del activo sin coste en 3 días, producto optimizado, proyecto para licencia y desarrollo técnico con plazos definidos."
+>
+  <section data-hero class="phero dark">
+    <div class="ptxt">
+      <span data-reveal="fade" class="lbl" style="color:var(--teca-claro)">Promotoras</span>
+      <h1 class="h" style="--fs:clamp(52px,7.4vw,120px);--lh:.96;--ls:-.026em">
+        <span class="ln"><span data-reveal="up">Arquitectura</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="70">residencial</span></span>
+        <span class="ln"><span data-reveal="up" data-delay="140">para promotoras.</span></span>
+      </h1>
+      <p data-reveal="fade" data-delay="200" class="body" style="max-width:30em;color:var(--noche-texto)">Analizamos tu activo y planteamos un encaje inicial sin coste. Después, producto, licencia y desarrollo técnico con plazos definidos.</p>
+      <div data-reveal="fade" data-delay="260" class="row" style="gap:16px 32px;align-items:center">
+        <a href="/contacto/?tipo=promotora" class="btn btn--light">Analizamos tu activo sin coste <span>→</span></a>
+        <a href={CONTACTO.telHref} class="link" style="color:var(--cal)">{CONTACTO.tel}</a>
+      </div>
+    </div>
+    <div class="pimg"><Foto src={promocion} alt="Promoción de viviendas adosadas con piscina comunitaria" h="100%" reveal="hero" eager sizes="(max-width: 819px) 100vw, 50vw" /></div>
+  </section>
+
+  <section class="sec col" style="gap:clamp(40px,5vw,72px)">
+    <div class="row between end" style="gap:24px">
+      <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">Del suelo al proyecto,<br />con plazos.</h2>
+      <span class="muted" style="font-size:16px">Suma de plazos: entre 18 y 23 semanas</span>
+    </div>
+    <div class="col bt-ink">
+      {plazos.map((p, i) => (
+        <div class="plazo">
+          <div class="row baseline" style="gap:16px"><span class="serif teca" style="font-size:32px;font-weight:400">{p.n}</span><span style="font-size:18px;font-weight:500">{p.t}</span></div>
+          <div class="track">
+            <div data-reveal="bar" data-delay={String(i * 120)} class="bar" style={`left:${p.left}%;width:${p.w}%;${p.grad ? `background:linear-gradient(90deg,var(--tinta) ${p.grad}%,var(--teca) ${p.grad}%)` : ''}`} />
+          </div>
+          <span class="serif dur">{p.d}</span>
+        </div>
+      ))}
+    </div>
+    <div class="row muted" style="gap:12px 32px;font-size:15px">
+      <span class="row" style="align-items:center;gap:10px"><span class="sw" style="background:var(--tinta)" />Plazo mínimo</span>
+      <span class="row" style="align-items:center;gap:10px"><span class="sw" style="background:var(--teca)" />Margen hasta el plazo máximo</span>
+      <span>Cada división, una semana</span>
+    </div>
+  </section>
+
+  <section class="sec sand col" style="gap:clamp(40px,5vw,72px)">
+    <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">Qué aportamos</h2>
+    <div class="grid-auto" style="--min:280px;--gap:0 clamp(24px,3vw,48px)">
+      {aportes.map(([n, t, d], i) => (
+        <div data-reveal="fade" data-delay={String(i * 80)} class="col bt-ink" style="padding:28px 0;gap:16px">
+          <span class="lbl muted">{n}</span>
+          <h3 class="h3" style="--fs:clamp(30px,2.8vw,44px);line-height:1.05">{t}</h3>
+          <p class="body">{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec col" style="gap:clamp(40px,5vw,72px)">
+    <div class="row between baseline" style="gap:24px">
+      <h2 class="h" style="--fs:clamp(40px,4.8vw,76px)">Casos</h2>
+      <span class="muted" style="font-size:15px">[Promociones de referencia: pendiente de datos del estudio]</span>
+    </div>
+    <div class="grid-auto" style="--min:320px">
+      {casos.map((c) => (
+        <article class="col" style="gap:16px">
+          <Foto src={c.img} alt={c.alt} ratio="4/3" sizes="(max-width: 819px) 100vw, 33vw" />
+          <h3 class="h3" style="--fs:28px">[Nombre de la promoción]</h3>
+          <dl class="caso bt"><dt>Municipio</dt><dd>[Municipio]</dd><dt>Viviendas</dt><dd>[nº]</dd><dt>Edificabilidad</dt><dd>[m²]</dd><dt>Estado</dt><dd>[Estado]</dd></dl>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec dark row between end" style="gap:40px">
+    <div class="col" style="gap:24px;max-width:900px">
+      <span class="lbl" style="color:var(--teca-claro)">Primer paso, sin coste</span>
+      <h2 class="h" style="--fs:clamp(48px,7vw,112px);--lh:.96;--ls:-.026em">Analizamos tu activo<br />en 3 días.</h2>
+      <p class="body" style="max-width:30em;color:var(--noche-texto)">Envíanos la ubicación o la referencia catastral y te planteamos un encaje inicial.</p>
+    </div>
+    <a href="/contacto/?tipo=promotora" class="btn btn--light">Analizamos tu activo sin coste <span>→</span></a>
+  </section>
+</Base>
+
+<style>
+  .phero { min-height: 100svh; display: flex; flex-wrap: wrap; }
+  .ptxt { flex: 1 1 520px; display: flex; flex-direction: column; justify-content: flex-end; gap: clamp(28px, 3vw, 40px); padding: clamp(120px, 14vw, 180px) var(--pad) clamp(40px, 5vw, 72px); }
+  .pimg { flex: 1 1 420px; position: relative; min-height: 60vh; }
+  .pimg > :global(.foto) { position: absolute; inset: 0; }
+  .plazo { display: grid; grid-template-columns: minmax(260px, 1.1fr) minmax(0, 3fr) 150px; gap: 12px 32px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--linea); }
+  @media (max-width: 819px) { .plazo { grid-template-columns: minmax(0, 1fr) auto; } .plazo .track { grid-column: 1 / -1; grid-row: 2; } }
+  .track { position: relative; height: 28px; background: repeating-linear-gradient(90deg, #e0d9ce 0 1px, transparent 1px calc(100% / 23)); }
+  .bar { position: absolute; top: 0; bottom: 0; min-width: 10px; background: var(--tinta); transform-origin: left; }
+  .dur { font-size: 26px; text-align: right; font-weight: 300; }
+  .sw { width: 24px; height: 10px; display: inline-block; }
+  .caso { display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; font-size: 16px; padding-top: 12px; }
+  .caso dt { color: var(--gris); }
+</style>

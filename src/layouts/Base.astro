@@ -1,0 +1,255 @@
+---
+import '../styles/global.css';
+import { Image } from 'astro:assets';
+import { CONTACTO } from '../data/proyectos';
+import teca from '../assets/proyectos/teca.jpg';
+import bocetos from '../assets/img/bocetos.jpg';
+import materiales from '../assets/img/materiales.png';
+import promocion from '../assets/img/promocion-piscina.webp';
+import serena from '../assets/proyectos/serena.png';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Muestra la intro con el logo (solo home) */
+  intro?: boolean;
+  /** Oculta la barra fija de CTA en mobile */
+  noFab?: boolean;
+  image?: string;
+}
+const { title, description, intro = false, noFab = false, image } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+
+const MENU = [
+  { label: 'Proyectos', href: '/proyectos/', img: teca, alt: 'Casa Teca, refugio de madera en el jardín' },
+  { label: 'Cómo trabajamos', href: '/como-trabajamos/', img: bocetos, alt: 'Bocetos y muestras de materiales sobre la mesa' },
+  { label: 'Estudio', href: '/estudio/', img: materiales, alt: 'Muestras de piedra y madera sobre planos' },
+  { label: 'Promotoras', href: '/promotoras/', img: promocion, alt: 'Promoción residencial con piscina' },
+  { label: 'Contacto', href: '/contacto/', img: serena, alt: 'Casa Serena, jardín y piscina' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'ProfessionalService'],
+  name: 'INIZIO Arquitectos',
+  description: 'Estudio de arquitectura especializado en vivienda unifamiliar a medida: proyecto y dirección de obra en Madrid oeste.',
+  url: Astro.site?.href,
+  telephone: '+34638600367',
+  email: CONTACTO.email,
+  address: { '@type': 'PostalAddress', streetAddress: 'Avenida de Europa 26, 2.ª planta', postalCode: '28224', addressLocality: 'Pozuelo de Alarcón', addressRegion: 'Madrid', addressCountry: 'ES' },
+  openingHours: 'Mo-Fr 09:00-19:00',
+  areaServed: ['Pozuelo de Alarcón', 'Madrid', 'Majadahonda', 'Las Rozas', 'Toledo', 'Segovia', 'Ávila', 'Guadalajara'],
+};
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#1C1B19" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <meta name="robots" content="noindex" />
+  <script is:inline>
+    // Animaciones salvo "reducir movimiento" del sistema. ?motion=1 las fuerza en demos; ?nomotion las apaga (capturas).
+    (function () {
+      var q = location.search;
+      if (/[?&]motion=1/.test(q)) sessionStorage.setItem('fm', '1');
+      var force = sessionStorage.getItem('fm') === '1';
+      var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if ((force || !reduced) && !/[?&]nomotion/.test(q)) document.documentElement.classList.add('motion');
+    })();
+  </script>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</head>
+<body>
+  <a class="skip" href="#main">Saltar al contenido</a>
+
+  {intro && (
+    <div data-intro class="intro" aria-hidden="true">
+      <div data-intro-logo class="intro-logo">INIZIO</div>
+    </div>
+  )}
+
+  <header data-header class="hdr">
+    <a href="/" class="hdr-logo" aria-label="INIZIO, inicio">INIZIO</a>
+    <div class="hdr-actions">
+      <button data-menu-btn class="hdr-menu" aria-expanded="false" aria-controls="menu">
+        <span class="burger" aria-hidden="true"><span></span><span></span></span><span data-menu-label>Menú</span>
+      </button>
+      <a href="/contacto/" class="hdr-cta">Contacto</a>
+    </div>
+  </header>
+
+  <div id="menu" data-menu class="menu dark" aria-hidden="true" inert>
+    <div class="menu-grid">
+      <nav class="menu-nav" aria-label="Principal">
+        {MENU.map((m, i) => (
+          <a href={m.href} data-menu-item class:list={['menu-item', i === 0 && 'is-on']}>
+            <span class="menu-n">{String(i + 1).padStart(2, '0')}</span>{m.label}
+          </a>
+        ))}
+      </nav>
+      <div class="menu-photos" aria-hidden="true">
+        {MENU.map((m, i) => (
+          <div data-menu-photo class:list={['menu-photo', i === 0 && 'is-on']}>
+            <Image src={m.img} alt="" widths={[600, 1000]} sizes="45vw" loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="menu-foot">
+      <a href={CONTACTO.telHref}>{CONTACTO.tel}</a>
+      <a href={`mailto:${CONTACTO.email}`}>{CONTACTO.email}</a>
+      <a href={CONTACTO.wa} target="_blank" rel="noopener">WhatsApp</a>
+      <span>Avenida de Europa 26, 2.ª planta · Pozuelo de Alarcón</span>
+    </div>
+  </div>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="ftr dark" class:list={[!noFab && 'ftr--fab']}>
+    <div class="ftr-top">
+      <div class="ftr-logo">INIZIO</div>
+      <p class="ftr-claim">Arquitectos de vivienda unifamiliar a medida. Proyecto y dirección de obra en Madrid oeste.</p>
+    </div>
+    <div class="ftr-cols">
+      <div class="col ftr-col">
+        <span class="lbl">Estudio</span>
+        <span>{CONTACTO.dir}<br />{CONTACTO.cp}</span>
+      </div>
+      <div class="col ftr-col">
+        <span class="lbl">Contacto</span>
+        <a href={CONTACTO.telHref}>{CONTACTO.tel}</a>
+        <a href={`mailto:${CONTACTO.email}`}>{CONTACTO.email}</a>
+        <a href={CONTACTO.wa} target="_blank" rel="noopener" class="ftr-wa">WhatsApp →</a>
+      </div>
+      <div class="col ftr-col">
+        <span class="lbl">Horario</span>
+        <span>{CONTACTO.horario}<br />Respuesta en menos de 24 h laborables</span>
+      </div>
+      <nav class="col ftr-col" aria-label="Pie">
+        <span class="lbl">Web</span>
+        <a href="/proyectos/">Proyectos</a>
+        <a href="/como-trabajamos/">Cómo trabajamos</a>
+        <a href="/estudio/">Estudio</a>
+        <a href="/promotoras/">Promotoras</a>
+        <a href="/estudio/#circulo">Círculo INIZIO</a>
+      </nav>
+    </div>
+    <div class="ftr-bottom">
+      <span>Pozuelo de Alarcón · Madrid · Majadahonda · Las Rozas · Toledo · Segovia · Ávila · Guadalajara</span>
+      <span class="ftr-legal"><span>Aviso legal</span><span>Privacidad</span><span>Cookies</span><span>© INIZIO</span></span>
+    </div>
+    <p class="ftr-credit">Propuesta de rediseño · <a href="https://www.manaestudio.ar/" target="_blank" rel="noopener">Maná</a></p>
+  </footer>
+
+  {!noFab && (
+    <div class="fab">
+      <a href="/contacto/" class="fab-main">Cuéntanos tu parcela <span aria-hidden="true">→</span></a>
+      <a href={CONTACTO.wa} target="_blank" rel="noopener" class="fab-wa">WhatsApp</a>
+    </div>
+  )}
+
+  <div data-cursor-el class="cursor" aria-hidden="true">
+    <div data-cursor-dot class="cursor-dot"><span data-cursor-txt></span></div>
+  </div>
+
+  <script>
+    import '../scripts/motion.ts';
+  </script>
+</body>
+</html>
+
+<style is:global>
+  .intro { position: fixed; inset: 0; z-index: 200; background: var(--tinta); display: none; align-items: center; justify-content: center; }
+  .motion .intro { display: flex; }
+  .intro-logo { font-family: var(--serif); font-weight: 300; font-size: clamp(44px, 7vw, 108px); letter-spacing: .32em; padding-left: .32em; color: var(--cal); }
+
+  .hdr {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: var(--header-h); padding: 0 var(--pad);
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(242, 238, 231, .94); color: var(--tinta); border-bottom: 1px solid var(--linea); backdrop-filter: blur(10px);
+    transition: transform 700ms var(--expo), background-color 500ms ease, color 500ms ease, border-color 500ms ease;
+  }
+  .hdr.is-hidden { transform: translateY(-100%); }
+  .hdr.on-dark { background: rgba(242, 238, 231, 0); color: var(--cal); border-bottom-color: transparent; backdrop-filter: none; }
+  .hdr a:hover { color: inherit; }
+  .hdr-logo { font-family: var(--serif); font-weight: 400; font-size: 21px; letter-spacing: .34em; }
+  .hdr-actions { display: flex; align-items: center; gap: clamp(16px, 2.4vw, 32px); }
+  .hdr-menu, .hdr-cta { height: 44px; font: 500 13px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: inherit; }
+  .hdr-menu { background: none; border: 0; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .burger { display: flex; flex-direction: column; gap: 5px; width: 22px; }
+  .burger span { height: 1px; background: currentColor; display: block; transition: width 500ms var(--expo); }
+  .burger span:last-child { width: 14px; }
+  .hdr-menu:hover .burger span:last-child { width: 22px; }
+  .hdr-cta { padding: 0 20px; display: flex; align-items: center; border: 1px solid currentColor; transition: background-color 400ms ease, color 400ms ease, border-color 400ms ease; }
+  .hdr .hdr-cta:hover { background: var(--teca); border-color: var(--teca); color: var(--cal); }
+
+  .menu {
+    position: fixed; inset: 0; z-index: 55; clip-path: inset(0 0 100% 0); pointer-events: none;
+    transition: clip-path 900ms var(--expo); display: flex; flex-direction: column;
+    padding: clamp(96px, 12vh, 128px) var(--pad) 32px; overflow: auto;
+  }
+  .menu-open .menu { clip-path: inset(0 0 0 0); pointer-events: auto; }
+  .menu-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: clamp(32px, 5vw, 80px); min-height: 0; }
+  .menu-nav { display: flex; flex-direction: column; justify-content: center; }
+  .menu-item {
+    display: flex; align-items: baseline; gap: clamp(14px, 2vw, 28px); padding: clamp(8px, 1.2vh, 14px) 0; border-top: 1px solid var(--noche-linea);
+    font-family: var(--serif); font-weight: 300; font-size: clamp(40px, 5.2vw, 80px); line-height: 1.05; letter-spacing: -.02em; color: var(--cal);
+    transition: color 500ms ease;
+  }
+  .menu-item.is-on, .menu-item:hover { color: var(--teca-claro); }
+  .menu-n { font: 500 13px/1 var(--sans); letter-spacing: .16em; color: var(--noche-gris); width: 28px; flex: none; }
+  .menu-photos { position: relative; overflow: hidden; min-height: 320px; }
+  .menu-photo { position: absolute; inset: 0; opacity: 0; transform: scale(1.06); transition: opacity 800ms var(--expo), transform 1400ms var(--expo); }
+  .menu-photo.is-on { opacity: 1; transform: scale(1); }
+  .menu-photo img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 1099px) { .menu-photos { display: none; } }
+  .menu-foot { display: flex; flex-wrap: wrap; gap: 12px 40px; padding-top: 28px; margin-top: 28px; border-top: 1px solid var(--noche-linea); font-size: 15px; color: var(--noche-gris); }
+  .menu-foot a { color: var(--cal); }
+
+  .ftr { padding: clamp(72px, 9vw, 128px) var(--pad) 40px; }
+  .ftr a:hover { color: var(--teca-claro); }
+  @media (max-width: 819px) { .ftr--fab { padding-bottom: 108px; } }
+  .ftr-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: clamp(48px, 6vw, 88px); border-bottom: 1px solid var(--noche-linea); }
+  .ftr-logo { font-family: var(--serif); font-weight: 300; font-size: clamp(56px, 11vw, 168px); line-height: .9; letter-spacing: .18em; }
+  .ftr-claim { max-width: 30ch; font-size: clamp(16px, 1.25vw, 18px); line-height: 1.55; color: var(--noche-gris); }
+  .ftr-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 40px; padding: clamp(40px, 5vw, 64px) 0; }
+  .ftr-col { gap: 12px; font-size: 17px; line-height: 1.55; }
+  .ftr-col .lbl { color: var(--noche-gris); }
+  .ftr-wa { color: var(--teca-claro); }
+  .ftr-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--noche-linea); font-size: 14px; color: var(--noche-gris); }
+  .ftr-legal { display: flex; gap: 20px; flex-wrap: wrap; }
+  .ftr-credit { margin-top: 20px; font-size: 13px; color: var(--noche-gris); }
+
+  .fab { display: none; }
+  @media (max-width: 819px) {
+    .fab { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 40; display: flex; gap: 8px; transition: transform 600ms var(--expo); transform: translateY(140%); }
+    .fab-on .fab { transform: translateY(0); }
+    .menu-open .fab { transform: translateY(140%); }
+    .fab-main { flex: 1; height: 56px; background: var(--tinta); color: var(--cal); display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500; font-size: 16px; }
+    .fab-wa { height: 56px; padding: 0 18px; background: var(--cal); color: var(--tinta); border: 1px solid var(--tinta); display: flex; align-items: center; font-weight: 500; font-size: 16px; }
+    .fab a:hover { color: inherit; }
+    .fab-main:hover { color: var(--cal); }
+  }
+
+  .cursor { position: fixed; left: 0; top: 0; width: 0; height: 0; z-index: 300; pointer-events: none; }
+  .cursor-dot {
+    position: absolute; left: -50px; top: -50px; width: 100px; height: 100px; border-radius: 50%;
+    background: var(--teca); color: var(--cal); display: flex; align-items: center; justify-content: center;
+    font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase;
+    transform: scale(0); transition: transform 500ms var(--expo);
+  }
+</style>

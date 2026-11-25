@@ -1,0 +1,226 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACTO } from '../data/proyectos';
+
+const munis = ['Pozuelo de Alarcón', 'Madrid', 'Majadahonda', 'Las Rozas', 'Toledo', 'Segovia', 'Ávila', 'Guadalajara', 'Otro'];
+const wizard = {
+  sup: ['Menos de 200 m²', '200–300 m²', '300–400 m²', 'Más de 400 m²'],
+  dorm: ['2', '3', '4', '5 o más'],
+  extra: ['Piscina', 'Sótano', 'Garaje', 'Despacho', 'Jardín'],
+  when: ['Cuanto antes', 'En 6 meses', 'En 6–12 meses', 'Más adelante'],
+};
+---
+<Base
+  title="Contacto · INIZIO Arquitectos"
+  description="Cuéntanos tu parcela: te responde un arquitecto del estudio en menos de 24 h laborables. Teléfono, WhatsApp y propuesta de honorarios en tres pasos."
+  noFab
+>
+  <section class="page-top px row between end" style="padding-bottom:clamp(48px,6vw,88px);gap:32px">
+    <h1 class="h" style="--fs:clamp(56px,9vw,144px);--lh:.95;--ls:-.028em">
+      <span class="ln"><span data-reveal="up">Cuéntanos</span></span>
+      <span class="ln"><span data-reveal="up" data-delay="70" class="i">tu parcela.</span></span>
+    </h1>
+    <p data-reveal="fade" class="body" style="max-width:24em">Te responde un arquitecto del estudio en menos de 24 h laborables.</p>
+  </section>
+
+  <section class="px row" style="padding-bottom:clamp(96px,11vw,160px);gap:64px clamp(40px,6vw,112px);align-items:flex-start">
+    <div class="bt-ink" style="flex:1.7 1 480px;padding-top:40px">
+      <form data-form class="form" novalidate>
+        <label class="field"><span class="lbl muted">Nombre</span><input name="nombre" required autocomplete="given-name" /></label>
+        <label class="field"><span class="lbl muted">Email</span><input name="email" type="email" required autocomplete="email" /></label>
+        <label class="field"><span class="lbl muted">Teléfono <span class="opt">(opcional)</span></span><input name="tel" type="tel" autocomplete="tel" /></label>
+        <label class="field"><span class="lbl muted">Municipio</span><select name="municipio">{munis.map((m) => <option>{m}</option>)}</select></label>
+        <fieldset class="full seg-wrap">
+          <legend class="lbl muted">¿Tienes parcela?</legend>
+          <div class="seg">
+            {['Sí', 'No', 'Buscando'].map((o, i) => <button type="button" data-seg aria-pressed={i === 0 ? 'true' : 'false'}>{o}</button>)}
+          </div>
+        </fieldset>
+        <label class="field full"><span class="lbl muted">Mensaje</span><textarea name="mensaje" rows="4" placeholder="Cuéntanos qué casa imaginas y en qué punto estás." data-msg></textarea></label>
+        <div class="full row between" style="align-items:center;gap:20px">
+          <label class="check"><input type="checkbox" required name="privacidad" />Acepto la política de privacidad.</label>
+          <button type="submit" class="btn">Enviar <span>→</span></button>
+        </div>
+        <p class="err full" data-err hidden>Revisa el nombre, un email válido y la casilla de privacidad.</p>
+      </form>
+      <div class="sent" data-sent hidden tabindex="-1">
+        <span class="lbl teca">Mensaje recibido</span>
+        <p class="h" style="--fs:clamp(36px,4vw,60px);--lh:1.05">Gracias, <span data-name></span>. Te escribimos en menos de 24 h laborables.</p>
+        <button type="button" class="link again" data-again>Enviar otro mensaje</button>
+      </div>
+    </div>
+
+    <aside class="col" style="flex:1 1 320px;gap:32px">
+      <a href={CONTACTO.wa} target="_blank" rel="noopener" class="wa"><span>Escríbenos por WhatsApp</span><span>→</span></a>
+      <div class="col bt-ink">
+        <div class="kv"><span class="muted">Teléfono</span><a href={CONTACTO.telHref}>{CONTACTO.tel}</a></div>
+        <div class="kv"><span class="muted">Email</span><a href={`mailto:${CONTACTO.email}`}>{CONTACTO.email}</a></div>
+        <div class="kv"><span class="muted">Horario</span><span>L–V, 9:00–19:00</span></div>
+      </div>
+      <a class="map" href="https://www.google.com/maps/search/?api=1&query=Avenida+de+Europa+26+Pozuelo+de+Alarc%C3%B3n" target="_blank" rel="noopener" aria-label="Abrir la ubicación del estudio en Google Maps">
+        <span class="r" style="top:30%;transform:rotate(-14deg)" /><span class="r" style="top:62%;transform:rotate(8deg)" />
+        <span class="r r--main" style="top:48%;transform:rotate(-4deg)" />
+        <span class="c" style="left:34%;transform:rotate(18deg)" /><span class="c" style="left:70%;transform:rotate(-10deg)" />
+        <span class="b" style="left:12%;top:12%;width:22%;height:18%" /><span class="b" style="right:10%;bottom:10%;width:26%;height:20%" />
+        <span class="pin" />
+        <span class="pin-lbl">INIZIO<br /><span class="muted" style="font-weight:400">Avda. de Europa 26</span></span>
+        <span class="map-cta">Abrir en Google Maps ↗</span>
+      </a>
+      <p style="font-size:16px;line-height:1.55">{CONTACTO.dir}<br />{CONTACTO.cp}</p>
+    </aside>
+  </section>
+
+  <section id="propuesta" class="sec sand row" style="padding-bottom:clamp(96px,11vw,160px);gap:48px clamp(40px,6vw,112px);align-items:flex-start">
+    <div class="col" style="flex:1 1 280px;max-width:420px;gap:20px">
+      <span class="lbl teca">Propuesta de honorarios</span>
+      <h2 class="h" style="--fs:clamp(40px,4.4vw,68px)">Tu propuesta, <em>en tres pasos.</em></h2>
+      <p class="body">Con estos datos preparamos una propuesta de honorarios para tu casa.</p>
+    </div>
+    <div class="wiz" data-wiz>
+      <div class="steps" aria-hidden="true">
+        {['Tu parcela', 'Tu casa', 'Tus datos'].map((l, i) => (
+          <div class="col" style="gap:10px"><div class="step-rail"><div class="step-fill" data-fill={i} /></div><span class="step-lbl" data-slbl={i}>0{i + 1} · {l}</span></div>
+        ))}
+      </div>
+
+      <div class="pane" data-pane="0">
+        <h3 class="h3">Tu parcela</h3>
+        <div class="col" style="gap:12px"><span class="lbl muted">¿Tienes parcela?</span>
+          <div class="chips" data-group="parcela">{['Sí', 'No', 'Buscando'].map((o, i) => <button type="button" class="chip" aria-pressed={i === 0 ? 'true' : 'false'}>{o}</button>)}</div></div>
+        <div class="grid-auto" style="--min:220px;--gap:28px">
+          <label class="field"><span class="lbl muted">Municipio</span><input placeholder="Pozuelo de Alarcón" /></label>
+          <label class="field"><span class="lbl muted">Superficie aprox. (m²)</span><input inputmode="numeric" placeholder="1.200" /></label>
+        </div>
+      </div>
+      <div class="pane" data-pane="1" hidden>
+        <h3 class="h3">Tu casa</h3>
+        <div class="col" style="gap:12px"><span class="lbl muted">Superficie de la casa</span><div class="chips" data-group="sup">{wizard.sup.map((o) => <button type="button" class="chip" aria-pressed="false">{o}</button>)}</div></div>
+        <div class="col" style="gap:12px"><span class="lbl muted">Dormitorios</span><div class="chips" data-group="dorm">{wizard.dorm.map((o) => <button type="button" class="chip" style="min-width:56px" aria-pressed="false">{o}</button>)}</div></div>
+        <div class="col" style="gap:12px"><span class="lbl muted">Quieres incluir <span class="opt">(varias)</span></span><div class="chips" data-group="extra" data-multi>{wizard.extra.map((o) => <button type="button" class="chip" aria-pressed="false">{o}</button>)}</div></div>
+        <div class="col" style="gap:12px"><span class="lbl muted">¿Cuándo te gustaría empezar?</span><div class="chips" data-group="when">{wizard.when.map((o) => <button type="button" class="chip" aria-pressed="false">{o}</button>)}</div></div>
+      </div>
+      <div class="pane" data-pane="2" hidden>
+        <h3 class="h3">Tus datos</h3>
+        <div class="grid-auto" style="--min:220px;--gap:28px">
+          <label class="field"><span class="lbl muted">Nombre</span><input autocomplete="given-name" /></label>
+          <label class="field"><span class="lbl muted">Email</span><input type="email" autocomplete="email" /></label>
+          <label class="field"><span class="lbl muted">Teléfono <span class="opt">(opcional)</span></span><input type="tel" autocomplete="tel" /></label>
+        </div>
+        <label class="check"><input type="checkbox" />Acepto la política de privacidad.</label>
+      </div>
+      <div class="pane" data-pane="3" hidden tabindex="-1">
+        <span class="lbl teca">Solicitud enviada</span>
+        <p class="h" style="--fs:clamp(30px,3vw,48px);--lh:1.1">Gracias. Preparamos tu propuesta y te escribimos en menos de 24 h laborables.</p>
+      </div>
+
+      <div class="wiz-nav" data-nav>
+        <button type="button" class="back" data-prev disabled>← Atrás</button>
+        <button type="button" class="btn" data-next><span data-next-lbl>Siguiente</span> <span>→</span></button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Prototipo: los envíos no salen del navegador (no se manda nada al estudio todavía).
+  const params = new URLSearchParams(location.search);
+  const msg = document.querySelector<HTMLTextAreaElement>('[data-msg]');
+  if (msg && params.get('tipo') === 'promotora') msg.placeholder = 'Ubicación o referencia catastral del activo, superficie y qué te planteas promover.';
+  if (msg && params.get('tipo') === 'recomendacion') msg.placeholder = 'Nombre y contacto de la persona que nos recomiendas, y tu código si ya lo tienes.';
+
+  // Selector Sí / No / Buscando
+  const segs = [...document.querySelectorAll<HTMLButtonElement>('[data-seg]')];
+  segs.forEach((b) => b.addEventListener('click', () => segs.forEach((x) => x.setAttribute('aria-pressed', String(x === b)))));
+
+  // Formulario corto
+  const form = document.querySelector<HTMLFormElement>('[data-form]')!;
+  const sent = document.querySelector<HTMLElement>('[data-sent]')!;
+  const err = document.querySelector<HTMLElement>('[data-err]')!;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { err.hidden = false; form.querySelector<HTMLElement>(':invalid')?.focus(); return; }
+    err.hidden = true;
+    sent.querySelector('[data-name]')!.textContent = (form.elements.namedItem('nombre') as HTMLInputElement).value.trim();
+    form.hidden = true; sent.hidden = false; sent.focus();
+  });
+  sent.querySelector('[data-again]')!.addEventListener('click', () => { form.reset(); sent.hidden = true; form.hidden = false; });
+
+  // Propuesta en 3 pasos
+  const wiz = document.querySelector<HTMLElement>('[data-wiz]')!;
+  const panes = [...wiz.querySelectorAll<HTMLElement>('[data-pane]')];
+  const prev = wiz.querySelector<HTMLButtonElement>('[data-prev]')!;
+  const next = wiz.querySelector<HTMLButtonElement>('[data-next]')!;
+  const nav = wiz.querySelector<HTMLElement>('[data-nav]')!;
+  let step = 0;
+  const render = () => {
+    panes.forEach((p, i) => (p.hidden = i !== step));
+    wiz.querySelectorAll<HTMLElement>('[data-fill]').forEach((f) => (f.style.transform = `scaleX(${step >= +f.dataset.fill! ? 1 : 0})`));
+    wiz.querySelectorAll<HTMLElement>('[data-slbl]').forEach((l) => (l.style.color = step >= +l.dataset.slbl! ? 'var(--tinta)' : 'var(--gris)'));
+    prev.disabled = step === 0;
+    wiz.querySelector('[data-next-lbl]')!.textContent = step === 2 ? 'Enviar solicitud' : 'Siguiente';
+    nav.hidden = step === 3;
+    if (step === 3) panes[3].focus();
+  };
+  prev.addEventListener('click', () => { step = Math.max(0, step - 1); render(); });
+  next.addEventListener('click', () => { step = Math.min(3, step + 1); render(); });
+  wiz.querySelectorAll<HTMLElement>('[data-group]').forEach((g) => {
+    const multi = g.hasAttribute('data-multi');
+    const bs = [...g.querySelectorAll<HTMLButtonElement>('button')];
+    bs.forEach((b) => b.addEventListener('click', () => {
+      if (multi) b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+      else bs.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    }));
+  });
+  render();
+</script>
+
+<style>
+  .form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 36px 32px; }
+  .full { grid-column: 1 / -1; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field input, .field select, .field textarea {
+    height: 48px; border: 0; border-bottom: 1px solid var(--tinta); background: transparent; font-size: 17px; outline: none; padding: 0; border-radius: 0;
+    transition: border-color 300ms ease;
+  }
+  .field textarea { height: auto; padding: 12px 0; line-height: 1.55; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--teca); box-shadow: 0 1px 0 var(--teca); }
+  .opt { text-transform: none; letter-spacing: 0; }
+  .seg-wrap { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .seg-wrap legend { padding: 0; margin-bottom: 12px; }
+  .seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--tinta); }
+  .seg button { height: 52px; border: 0; background: transparent; font-size: 16px; cursor: pointer; transition: background-color 300ms ease, color 300ms ease; }
+  .seg button + button { border-left: 1px solid var(--tinta); }
+  .seg button[aria-pressed='true'] { background: var(--tinta); color: var(--cal); }
+  .check { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.5; color: var(--gris); max-width: 30em; }
+  .check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--teca); }
+  .err { color: var(--teca); font-size: 15px; }
+  .err[hidden], .sent[hidden], .form[hidden], .pane[hidden], .wiz-nav[hidden] { display: none; }
+  .sent { display: flex; flex-direction: column; gap: 20px; padding: 24px 0 48px; outline: none; }
+  .again { background: none; border: 0; padding: 0 0 4px; cursor: pointer; align-self: flex-start; }
+
+  .wa { display: flex; justify-content: space-between; align-items: center; height: 64px; padding: 0 24px; background: var(--tinta); color: var(--cal); font-size: 17px; font-weight: 500; transition: background-color 400ms ease; }
+  .wa:hover { background: var(--teca); color: var(--cal); }
+  .kv { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--linea); font-size: 17px; }
+
+  .map { position: relative; display: block; aspect-ratio: 4/3; background: var(--arena); overflow: hidden; color: var(--tinta); }
+  .map .r { position: absolute; left: -20%; right: -20%; height: 1px; background: var(--linea-2); }
+  .map .r--main { height: 3px; background: var(--linea); }
+  .map .c { position: absolute; top: -20%; bottom: -20%; width: 1px; background: var(--linea-2); }
+  .map .b { position: absolute; background: #ddd6ca; }
+  .map .pin { position: absolute; left: 54%; top: 47%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--teca); box-shadow: 0 0 0 8px rgba(154,91,60,.18); animation: pulse 2.4s var(--expo) infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(154,91,60,.35); } 100% { box-shadow: 0 0 0 22px rgba(154,91,60,0); } }
+  .map .pin-lbl { position: absolute; left: calc(54% + 20px); top: calc(47% - 10px); font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .map-cta { position: absolute; left: 14px; bottom: 12px; font: 500 12px/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris); transition: color 300ms ease; }
+  .map:hover .map-cta { color: var(--teca); }
+
+  .wiz { flex: 1.7 1 480px; background: var(--cal); padding: clamp(24px, 3.4vw, 56px); display: flex; flex-direction: column; gap: 36px; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .step-rail { position: relative; height: 2px; background: var(--linea); }
+  .step-fill { position: absolute; inset: 0; background: var(--teca); transform-origin: left; transform: scaleX(0); transition: transform 800ms var(--expo); }
+  .step-lbl { font-size: 14px; font-weight: 500; color: var(--gris); transition: color 400ms ease; }
+  .pane { display: flex; flex-direction: column; gap: 28px; outline: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wiz-nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 24px; border-top: 1px solid var(--linea); }
+  .back { background: none; border: 0; padding: 0; font-size: 16px; font-weight: 500; cursor: pointer; }
+  .back:disabled { opacity: .3; cursor: default; }
+</style>

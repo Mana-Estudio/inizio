@@ -1,0 +1,138 @@
+---
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/Foto.astro';
+import { PROYECTOS } from '../../data/proyectos';
+
+// Ritmo de revista: posición, proporción y desfase de cada tarjeta en la rejilla de 12 columnas.
+const L = [
+  { col: '1 / span 7', ratio: '4/5', mt: '0px' },
+  { col: '9 / span 4', ratio: '3/4', mt: 'clamp(80px,14vw,240px)' },
+  { col: '2 / span 6', ratio: '3/2', mt: '0px' },
+  { col: '8 / span 5', ratio: '4/5', mt: 'clamp(60px,9vw,160px)' },
+  { col: '1 / span 12', ratio: '21/9', mt: '0px' },
+  { col: '1 / span 5', ratio: '4/5', mt: '0px' },
+  { col: '7 / span 6', ratio: '16/10', mt: 'clamp(60px,8vw,140px)' },
+];
+const groups = [
+  { key: 'estado', title: 'Estado', all: 'Todos', opts: ['Construida', 'En obra', 'En proyecto'] },
+  { key: 'tipo', title: 'Tipología', all: 'Todas', opts: ['Una planta', 'Dos plantas', 'Con sótano'] },
+  { key: 'muni', title: 'Municipio', all: 'Todos', opts: [...new Set(PROYECTOS.map((p) => p.muni))] },
+];
+---
+<Base
+  title="Proyectos · INIZIO Arquitectos"
+  description="Doce casas unifamiliares de obra nueva en Madrid oeste y alrededores, cada una con su ficha: municipio, estado, superficies y galería."
+>
+  <section class="page-top px col" style="padding-bottom:clamp(40px,5vw,64px);gap:clamp(32px,4vw,56px)">
+    <div class="row between end" style="gap:24px">
+      <h1 class="h" style="--fs:clamp(64px,11vw,168px);--lh:.9;--ls:-.03em">
+        <span class="ln"><span data-reveal="up">Proyectos<sup class="count">12</sup></span></span>
+      </h1>
+      <p data-reveal="fade" class="body" style="max-width:26em">Vivienda unifamiliar de obra nueva en Madrid oeste y alrededores. Cada casa, con su ficha.</p>
+    </div>
+    <div class="filters" data-filters>
+      {groups.map((g) => (
+        <div class="fgroup" role="group" aria-label={g.title}>
+          <span class="lbl muted ftitle">{g.title}</span>
+          <div class="fchips">
+            {[g.all, ...g.opts].map((v, i) => (
+              <button type="button" class="chip" data-key={g.key} data-val={i === 0 ? '*' : v} aria-pressed={i === 0 ? 'true' : 'false'}>{v}</button>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div class="row between muted" style="gap:8px 24px;font-size:14px;padding-top:4px">
+        <span data-count-label aria-live="polite">12 de 12 casas</span>
+        <span>[Estado, tipología y municipio de cada casa provisionales: pendientes de confirmar con el estudio]</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="px" style="padding-bottom:var(--sec)">
+    <div class="pgrid" data-grid>
+      {PROYECTOS.map((p) => (
+        <a href={`/proyectos/${p.slug}/`} data-card data-cursor="Ver casa" data-estado={p.estado} data-tipo={p.tipo} data-muni={p.muni} class="pcard">
+          <div style="position:relative">
+            <Foto src={p.img} alt={`${p.name}: ${p.lema}`} ratio="4/5" pos={p.pos} vt={`casa-${p.slug}`} sizes="(max-width: 819px) 100vw, 60vw" class="pfoto" />
+            <div class="hname"><span>{p.name}</span></div>
+          </div>
+          <div class="card-meta bt" style="padding-top:14px">
+            <span class="row baseline" style="gap:14px"><span class="muted" style="font-weight:500;letter-spacing:.08em">{p.idx}</span><span class="serif" style="font-size:22px;font-weight:400;letter-spacing:0">{p.name}</span></span>
+            <span class="muted" style="text-align:right">{p.muni} · {p.estado}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    <div class="empty" data-empty hidden>
+      <p class="h" style="--fs:clamp(32px,3.4vw,48px)">No hay casas con esta combinación.</p>
+      <button type="button" class="link reset" data-reset>Quitar filtros</button>
+    </div>
+  </section>
+
+  <section class="sec bt row between end" style="padding-top:clamp(80px,9vw,140px);padding-bottom:clamp(80px,9vw,140px);gap:32px">
+    <h2 class="h" style="--fs:clamp(44px,6vw,96px);--lh:.98;--ls:-.024em">¿Tienes parcela?<br /><em class="teca">Empecemos por ahí.</em></h2>
+    <a href="/contacto/" class="btn">Cuéntanos tu parcela <span>→</span></a>
+  </section>
+</Base>
+
+<script define:vars={{ L }}>
+  const state = { estado: '*', tipo: '*', muni: '*' };
+  const cards = [...document.querySelectorAll('[data-grid] .pcard')];
+  const label = document.querySelector('[data-count-label]');
+  const empty = document.querySelector('[data-empty]');
+  const mq = matchMedia('(max-width: 819px)');
+
+  function layout() {
+    const visible = cards.filter((c) => !c.hidden);
+    visible.forEach((c, i) => {
+      const l = mq.matches ? { col: '1 / -1', ratio: i % 3 === 2 ? '3/2' : '4/5', mt: '0px' } : L[i % L.length];
+      c.style.gridColumn = l.col;
+      c.style.marginTop = l.mt;
+      const f = c.querySelector('.pfoto');
+      if (f) f.style.aspectRatio = l.ratio;
+    });
+    label.textContent = `${visible.length} de ${cards.length} casas`;
+    empty.hidden = visible.length > 0;
+  }
+  function apply() {
+    const run = () => {
+      cards.forEach((c) => {
+        c.hidden = !(['estado', 'tipo', 'muni'].every((k) => state[k] === '*' || c.dataset[k] === state[k]));
+      });
+      layout();
+    };
+    document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches ? document.startViewTransition(run) : run();
+  }
+  document.querySelectorAll('[data-filters] .chip').forEach((b) => b.addEventListener('click', () => {
+    state[b.dataset.key] = b.dataset.val;
+    document.querySelectorAll(`.chip[data-key="${b.dataset.key}"]`).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    apply();
+  }));
+  document.querySelector('[data-reset]').addEventListener('click', () => {
+    Object.keys(state).forEach((k) => (state[k] = '*'));
+    document.querySelectorAll('[data-filters] .chip').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.val === '*')));
+    apply();
+  });
+  mq.addEventListener('change', layout);
+  layout();
+</script>
+
+<style>
+  .count { font-size: .22em; letter-spacing: .06em; vertical-align: top; margin-left: .3em; color: var(--teca); font-family: var(--sans); font-weight: 500; }
+  .filters { display: flex; flex-direction: column; gap: 16px; padding: 24px 0; border-top: 1px solid var(--tinta); border-bottom: 1px solid var(--linea); }
+  .fgroup { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .ftitle { flex: none; width: 96px; }
+  .fchips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { height: 40px; padding: 0 16px; }
+  @media (max-width: 819px) {
+    .fgroup, .fchips { flex-wrap: nowrap; }
+    .fgroup { overflow-x: auto; scrollbar-width: none; margin-right: calc(var(--pad) * -1); padding-right: var(--pad); }
+    .fgroup::-webkit-scrollbar { display: none; }
+  }
+  .pgrid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(20px, 2.4vw, 40px); row-gap: clamp(56px, 7vw, 120px); }
+  @media (max-width: 819px) { .pgrid { grid-template-columns: minmax(0, 1fr); } }
+  .pcard[hidden] { display: none; }
+  .empty { padding: 96px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .empty[hidden] { display: none; }
+  .reset { background: none; border: 0; border-bottom: 1px solid var(--tinta); padding: 0 0 4px; cursor: pointer; }
+</style>
