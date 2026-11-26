@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 import { CONTACTO } from '../data/proyectos';
+import FirmaMana from '../components/FirmaMana.astro';
 import teca from '../assets/proyectos/teca.jpg';
 import bocetos from '../assets/img/bocetos.jpg';
 import materiales from '../assets/img/materiales.png';
@@ -150,9 +151,8 @@ const jsonLd = {
     </div>
     <div class="ftr-bottom">
       <span>Pozuelo de Alarcón · Madrid · Majadahonda · Las Rozas · Toledo · Segovia · Ávila · Guadalajara</span>
-      <span class="ftr-legal"><span>Aviso legal</span><span>Privacidad</span><span>Cookies</span><span>© INIZIO</span></span>
+      <span class="ftr-legal"><span>Aviso legal</span><span>Privacidad</span><span>Cookies</span><span>© INIZIO</span><FirmaMana cliente="inizio" /></span>
     </div>
-    <p class="ftr-credit">Propuesta de rediseño · <a href="https://www.manaestudio.ar/" target="_blank" rel="noopener">Maná</a></p>
   </footer>
 
   {!noFab && (
@@ -232,7 +232,6 @@ const jsonLd = {
   .ftr-wa { color: var(--teca-claro); }
   .ftr-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--noche-linea); font-size: 14px; color: var(--noche-gris); }
   .ftr-legal { display: flex; gap: 20px; flex-wrap: wrap; }
-  .ftr-credit { margin-top: 20px; font-size: 13px; color: var(--noche-gris); }
 
   .fab { display: none; }
   @media (max-width: 819px) {
